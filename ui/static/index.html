@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>垃圾智能分类系统</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+<body>
+    <!-- 顶部导航 -->
+    <header class="header">
+        <div class="header-content">
+            <div class="header-left">
+                <h1 class="logo"><i class="ri-recycle-line"></i> 垃圾智能分类系统</h1>
+                <span class="subtitle">OpenCV + PyTorch 智能四分类</span>
+            </div>
+            <nav class="tab-nav">
+                <button class="tab-btn active" data-tab="home">首页</button>
+                <button class="tab-btn" data-tab="recognize">智能识别</button>
+                <button class="tab-btn" data-tab="batch">批量识别</button>
+                <button class="tab-btn" data-tab="opencv">OpenCV 演示</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ============================================================ -->
+    <!-- Tab 1：首页                                                   -->
+    <!-- ============================================================ -->
+    <div class="tab-content active" id="tab-home">
+        <div class="home-hero">
+            <h2>垃圾智能分类系统</h2>
+            <p>上传一张图，让系统告诉你扔哪个桶</p>
+        </div>
+
+        <div class="home-grid">
+            <!-- 快速上传 -->
+            <div class="card home-quick-upload upload-area" id="homeUploadArea">
+                <div class="upload-content">
+                    <div class="upload-icon"><i class="ri-camera-lens-line"></i></div>
+                    <p class="upload-text">点这里上传图片试试</p>
+                    <p class="upload-hint">拖拽也可以 / 支持 JPG、PNG</p>
+                </div>
+                <input type="file" id="homeFileInput" accept="image/*" hidden>
+            </div>
+
+            <!-- 系统介绍 -->
+            <div class="card home-intro-card">
+                <h3 class="card-title">系统介绍</h3>
+                <div class="intro-item"><span class="intro-dot"></span> 数据集规模：<strong>80,012</strong> 张图片 / <strong>245</strong> 子类</div>
+                <div class="intro-item"><span class="intro-dot"></span> 分类方式：245 子类 → <strong>4</strong> 大类（可回收物 / 厨余垃圾 / 有害垃圾 / 其他垃圾）</div>
+                <div class="intro-item"><span class="intro-dot"></span> 最优模型：<strong>EfficientNet-B0</strong> / 准确率 <strong>94.47%</strong></div>
+                <div class="intro-item"><span class="intro-dot"></span> 核心技术：OpenCV 预处理 + PyTorch 迁移学习</div>
+                <div class="intro-item"><span class="intro-dot"></span> 支持模型：MobileNetV3 / ResNet18 / EfficientNet / ShuffleNet</div>
+            </div>
+        </div>
+
+        <!-- 四分类概览卡片 -->
+        <div class="category-overview">
+            <div class="category-card recyclable">
+                <div class="cat-icon"><i class="ri-recycle-line"></i></div>
+                <div class="cat-name">可回收物</div>
+                <div class="cat-count">136 子类</div>
+                <div class="cat-examples">纸箱、塑料瓶、易拉罐、旧衣物</div>
+            </div>
+            <div class="category-card kitchen">
+                <div class="cat-icon"><i class="ri-restaurant-line"></i></div>
+                <div class="cat-name">厨余垃圾</div>
+                <div class="cat-count">48 子类</div>
+                <div class="cat-examples">剩饭菜、果皮、茶叶渣、蛋壳</div>
+            </div>
+            <div class="category-card hazardous">
+                <div class="cat-icon"><i class="ri-alert-line"></i></div>
+                <div class="cat-name">有害垃圾</div>
+                <div class="cat-count">14 子类</div>
+                <div class="cat-examples">废电池、过期药品、废灯管</div>
+            </div>
+            <div class="category-card other">
+                <div class="cat-icon"><i class="ri-delete-bin-line"></i></div>
+                <div class="cat-name">其他垃圾</div>
+                <div class="cat-count">47 子类</div>
+                <div class="cat-examples">餐巾纸、烟蒂、陶瓷碎片</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- Tab 2：智能识别                                                -->
+    <!-- ============================================================ -->
+    <div class="tab-content" id="tab-recognize">
+        <div class="recognize-layout">
+            <!-- 左侧：上传 + 结果 -->
+            <div class="recognize-main">
+                <!-- 子 Tab -->
+                <div class="sub-tab-nav">
+                    <button class="sub-tab-btn active" data-subtab="single">单图识别</button>
+                    <button class="sub-tab-btn" data-subtab="compare">模型对比</button>
+                </div>
+
+                <!-- 单图识别 -->
+                <div class="sub-tab-content active" id="subtab-single">
+                    <!-- 上传区域 -->
+                    <div class="card upload-area" id="singleUploadArea">
+                        <div class="upload-content">
+                            <div class="upload-icon"><i class="ri-add-line"></i></div>
+                            <p class="upload-text">点击或拖拽图片到此处</p>
+                            <p class="upload-hint">支持 JPG / PNG / BMP，建议不超过 5MB</p>
+                        </div>
+                        <input type="file" id="singleFileInput" accept="image/*" hidden>
+                    </div>
+
+                    <!-- 识别结果（默认隐藏） -->
+                    <div class="card preview-card" id="singleResultCard" style="display:none;">
+                        <div class="preview-header">
+                            <h3>识别结果</h3>
+                            <button class="btn-reupload" id="singleReuploadBtn">重新上传</button>
+                        </div>
+                        <div class="preview-body">
+                            <div class="preview-image">
+                                <img id="singleAnnotatedImg" src="" alt="标注结果">
+                            </div>
+                            <div class="result-section">
+                                <div class="result-card" id="singleResultBox">
+                                    <div class="result-class" id="singleResultClass">--</div>
+                                    <div class="result-confidence" id="singleResultConf">置信度: --%</div>
+                                </div>
+                                <div class="prob-chart" id="singleProbChart"></div>
+                                <div class="advice-card" id="singleAdviceCard">
+                                    <div class="advice-title">投放建议</div>
+                                    <div class="advice-text" id="singleAdviceText">上传图片后将显示分类建议</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="model-info-text" id="singleModelInfo">模型: 加载中...</div>
+                    </div>
+                </div>
+
+                <!-- 模型对比 -->
+                <div class="sub-tab-content" id="subtab-compare">
+                    <div class="card upload-area compare-upload-area" id="compareUploadArea">
+                        <div class="upload-content">
+                            <div class="upload-icon"><i class="ri-scales-3-line"></i></div>
+                            <p class="upload-text">上传图片，对比四个模型的识别结果</p>
+                            <p class="upload-hint">拖拽或点击上传，将同时调用所有模型推理</p>
+                        </div>
+                        <input type="file" id="compareFileInput" accept="image/*" hidden>
+                    </div>
+
+                    <!-- 对比结果（默认隐藏） -->
+                    <div id="compareResultArea" style="display:none;">
+                        <div class="compare-grid" id="compareGrid"></div>
+                        <div class="card" style="overflow-x:auto;">
+                            <table class="compare-table" id="compareTable">
+                                <thead>
+                                    <tr>
+                                        <th>模型</th>
+                                        <th>分类结果</th>
+                                        <th>置信度</th>
+                                        <th>推理耗时</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="compareTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧：模型选择 + 识别历史 -->
+            <div class="recognize-sidebar">
+                <div class="card">
+                    <h3 class="card-title">模型选择</h3>
+                    <select id="modelSelect" class="model-select">
+                        <option value="">加载中...</option>
+                    </select>
+                    <div class="model-desc" id="modelDesc">--</div>
+                </div>
+
+                <!-- 识别历史 -->
+                <div class="card history-section">
+                    <div class="history-header">
+                        <h4>识别历史</h4>
+                        <button class="btn btn-danger" id="clearHistoryBtn" style="font-size:12px;padding:4px 10px;">清空</button>
+                    </div>
+                    <div id="historyGrid" class="history-grid">
+                        <div class="history-empty">暂无记录</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- Tab 3：批量识别                                                -->
+    <!-- ============================================================ -->
+    <div class="tab-content" id="tab-batch">
+        <div class="card upload-area batch-upload-area" id="batchUploadArea">
+            <div class="upload-content">
+                <div class="upload-icon"><i class="ri-folder-image-line"></i></div>
+                <p class="upload-text">拖拽或点击上传多张图片</p>
+                <p class="upload-hint">支持 JPG / PNG / BMP，可一次选择多张</p>
+            </div>
+            <input type="file" id="batchFileInput" accept="image/*" multiple hidden>
+        </div>
+
+        <!-- 统计摘要 -->
+        <div class="batch-stats-bar" id="batchStatsBar" style="display:none;">
+            <div class="stat-item">
+                <div class="stat-value" id="batchStatTotal">0</div>
+                <div class="stat-label">总计识别</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="batchStatAvgConf">0%</div>
+                <div class="stat-label">平均置信度</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="batchStatLowConf">0</div>
+                <div class="stat-label">低置信度(&lt;70%)</div>
+            </div>
+            <div class="stat-item" style="margin-left:auto;">
+                <button class="btn btn-outline" id="batchExportBtn">导出 CSV</button>
+            </div>
+        </div>
+
+        <!-- 图表 -->
+        <div class="charts-row" id="batchChartsRow" style="display:none;">
+            <div class="card chart-box">
+                <div id="batchPieChart" style="width:100%;height:300px;"></div>
+            </div>
+            <div class="card chart-box">
+                <div id="batchBarChart" style="width:100%;height:300px;"></div>
+            </div>
+        </div>
+
+        <!-- 结果表格 -->
+        <div class="card" id="batchResultCard" style="display:none;">
+            <h3 class="card-title">识别结果列表</h3>
+            <div style="overflow-x:auto;">
+                <table class="batch-result-table" id="batchResultTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>文件名</th>
+                            <th>分类结果</th>
+                            <th>置信度</th>
+                        </tr>
+                    </thead>
+                    <tbody id="batchResultBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- Tab 4：OpenCV 演示                                             -->
+    <!-- ============================================================ -->
+    <div class="tab-content" id="tab-opencv">
+        <div class="card upload-area pipeline-upload" id="opencvUploadArea">
+            <div class="upload-content">
+                <div class="upload-icon"><i class="ri-microscope-line"></i></div>
+                <p class="upload-text">上传一张图片，查看 OpenCV 预处理全过程</p>
+                <p class="upload-hint">将逐步展示：原图 → 高斯去噪 → CLAHE 增强 → 模型输入</p>
+            </div>
+            <input type="file" id="opencvFileInput" accept="image/*" hidden>
+        </div>
+
+        <!-- 管线步骤展示 -->
+        <div id="pipelineResultArea" style="display:none;">
+            <div class="card">
+                <h3 class="card-title">预处理管线可视化</h3>
+                <div class="pipeline-steps" id="pipelineSteps"></div>
+            </div>
+
+            <div class="card pipeline-params">
+                <h4>预处理参数说明</h4>
+                <div class="param-item">
+                    <span class="param-label">高斯去噪：</span>
+                    <span>核大小 5×5，σ=0（自动计算）</span>
+                </div>
+                <div class="param-item">
+                    <span class="param-label">CLAHE 增强：</span>
+                    <span>clipLimit=4.0, tileGridSize=8×8</span>
+                </div>
+                <div class="param-item">
+                    <span class="param-label">颜色空间：</span>
+                    <span>BGR → LAB → 处理 L 通道 → BGR</span>
+                </div>
+                <div class="param-item">
+                    <span class="param-label">最终缩放：</span>
+                    <span>224×224（模型输入尺寸）</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading 遮罩 -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-dots"><span></span><span></span><span></span></div>
+        <p id="loadingText">正在识别中...</p>
+    </div>
+
+    <!-- 图片放大模态 -->
+    <div class="image-modal" id="imageModal">
+        <img id="imageModalImg" src="" alt="">
+    </div>
+
+    <!-- ECharts CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+
+    <!-- JS 模块 -->
+    <script src="/static/history.js"></script>
+    <script src="/static/script.js"></script>
+    <script src="/static/compare.js"></script>
+    <script src="/static/batch.js"></script>
+    <script src="/static/opencv-demo.js"></script>
+</body>
+</html>

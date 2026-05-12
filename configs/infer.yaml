@@ -1,0 +1,6 @@
+# 推理配置
+infer:
+  checkpoint: "checkpoints/best_model.pth"
+  device: "cpu"
+  camera_id: 0
+  confidence_threshold: 0.5

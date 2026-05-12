@@ -1,0 +1,46 @@
+# 训练配置（覆盖 base）
+train:
+  epochs: 50
+  batch_size: 128
+  lr: 0.001
+  weight_decay: 1e-4
+  optimizer: "adamw"
+  scheduler: "cosine"
+  warmup_epochs: 3
+
+  # 两阶段训练策略
+  two_stage: true
+  stage1_epochs: 15
+  stage2_lr_factor: 0.1
+
+  # 回调策略
+  early_stopping:
+    patience: 10
+    min_delta: 0.001
+  checkpoint:
+    save_best: true
+    monitor: "val_accuracy"
+
+  # OpenCV 预处理（训练前对每张图片执行）
+  opencv_preprocess:
+    enabled: true
+    denoise: true            # 高斯去噪，减少图像噪声
+    denoise_method: "gaussian"  # gaussian / median / bilateral
+    denoise_ksize: 3
+    clahe: true               # 自适应直方图均衡化，缓解光照不均
+    clahe_clip_limit: 2.0
+
+  # 数据增强（训练时）
+  augmentation:
+    random_horizontal_flip: true
+    random_vertical_flip: true
+    random_rotation: 15
+    color_jitter:
+      brightness: 0.2
+      contrast: 0.2
+      saturation: 0.2
+    random_erasing: true
+    gaussian_noise: false
+
+val:
+  batch_size: 128

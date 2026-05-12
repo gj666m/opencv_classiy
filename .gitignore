@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# 数据（不纳入版本控制）
+data/trash_jpg/
+data/processed/
+data/split/
+data/meta/
+
+# 模型权重
+checkpoints/*.pth
+trained_models/**/*.pth
+*.pth
+
+# 日志
+logs/
+logs_v1/
+
+# 输出
+outputs/predictions/
+outputs/figures/
+outputs/reports/
+
+# IDE
+.vscode/
+.idea/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 虚拟环境
+venv/
+.venv/
+
+# 大文件
+*.tar.gz
