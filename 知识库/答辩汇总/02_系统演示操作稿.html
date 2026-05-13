@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+<title>02_系统演示操作稿</title>
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Helvetica Neue", sans-serif;
+    max-width: 750px;
+    margin: 0 auto;
+    padding: 20px 16px 60px;
+    background: #f5f5f5;
+    color: #333;
+    line-height: 1.8;
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+  }
+  h1 {
+    font-size: 22px;
+    text-align: center;
+    padding: 16px 0;
+    margin-bottom: 16px;
+    border-bottom: 2px solid #333;
+    color: #111;
+  }
+  h2 {
+    font-size: 19px;
+    margin: 28px 0 12px;
+    padding: 8px 12px;
+    background: #e8e8e8;
+    border-left: 4px solid #444;
+    border-radius: 4px;
+  }
+  h3 {
+    font-size: 17px;
+    margin: 20px 0 10px;
+    color: #555;
+  }
+  p { margin: 10px 0; }
+  strong { color: #c0392b; }
+  code {
+    background: #e0e0e0;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 14px;
+    font-family: "SF Mono", Menlo, monospace;
+  }
+  pre {
+    background: #2d2d2d;
+    color: #ccc;
+    padding: 14px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 12px 0;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  pre code { background: none; color: inherit; padding: 0; }
+  blockquote {
+    border-left: 4px solid #bbb;
+    padding: 8px 14px;
+    margin: 12px 0;
+    background: #eee;
+    border-radius: 4px;
+    color: #555;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 14px;
+  }
+  th, td {
+    border: 1px solid #ccc;
+    padding: 8px 10px;
+    text-align: left;
+  }
+  th { background: #ddd; }
+  tr:nth-child(even) { background: #f9f9f9; }
+  ul, ol { padding-left: 24px; margin: 8px 0; }
+  li { margin: 4px 0; }
+  hr { border: none; border-top: 1px solid #ccc; margin: 24px 0; }
+  .nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #333;
+    display: flex;
+    justify-content: space-around;
+    padding: 8px 0 env(safe-area-inset-bottom, 8px);
+    z-index: 100;
+  }
+  .nav a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 13px;
+    padding: 6px 10px;
+    border-radius: 4px;
+  }
+  .nav a:active { background: #555; }
+</style>
+
+</head>
+<body>
+<h1 id="_1">系统演示操作稿</h1>
+<blockquote>
+<p>使用说明：在讲完PPT第10页后，切换到浏览器进行现场演示。每个步骤都有对应的口语稿和操作指引。</p>
+</blockquote>
+<hr />
+<h2 id="30">演示前准备（答辩前30分钟完成）</h2>
+<ol>
+<li>打开终端，启动系统：<br />
+<code>bash
+   cd opencv_classiy
+   python ui/app.py</code></li>
+<li>浏览器打开 <code>http://localhost:8000</code></li>
+<li><strong>提前准备好3-5张测试图片</strong>：</li>
+<li>一张识别效果好、置信度高的图片（用于单图识别演示）</li>
+<li>一张其他垃圾或有害垃圾的图片（展示系统能力）</li>
+<li>5-10张各类别的图片（用于批量识别）</li>
+<li>确认四个模型权重文件都存在，<code>/api/models</code> 接口返回正常</li>
+<li>全屏浏览器，关闭无关标签页</li>
+</ol>
+<hr />
+<h2 id="140">步骤1：单图识别（约40秒）</h2>
+<h3 id="_2">操作</h3>
+<ol>
+<li>切换到浏览器</li>
+<li>点击「单图识别」标签页</li>
+<li>上传一张准备好的垃圾图片</li>
+<li>等待结果返回</li>
+</ol>
+<h3 id="_3">口语稿</h3>
+<blockquote>
+<p>"我先演示单图识别功能。这是系统的主界面，我上传一张垃圾图片——"</p>
+<p>（等待结果出来）</p>
+<p>"可以看到系统返回了分类结果，这里显示的是<strong>可回收物</strong>，置信度是<strong>百分之九十八</strong>。下面还有概率分布图和投放建议，告诉用户这类垃圾应该投到蓝色的可回收物桶。"</p>
+</blockquote>
+<h3 id="_4">注意</h3>
+<ul>
+<li>选一张置信度高的图片，效果震撼</li>
+<li>指向屏幕上的关键信息：分类结果、置信度、概率分布、投放建议</li>
+</ul>
+<hr />
+<h2 id="240">步骤2：四模型对比（约40秒）</h2>
+<h3 id="_5">操作</h3>
+<ol>
+<li>点击「四模型对比」标签页</li>
+<li>上传同一张图片</li>
+<li>等待四个模型分别推理完成</li>
+</ol>
+<h3 id="_6">口语稿</h3>
+<blockquote>
+<p>"接下来是四模型对比功能。同一张图片，我让系统同时用四个模型进行推理——"</p>
+<p>（等待结果出来）</p>
+<p>"可以看到四个模型的对比结果。<strong>EfficientNet-B0</strong>的置信度最高，这也验证了我们之前模型选型的结论。每个模型旁边还显示了推理耗时，ResNet18是最快的。这个功能可以直观地展示不同模型在同一图片上的表现差异。"</p>
+</blockquote>
+<h3 id="_7">注意</h3>
+<ul>
+<li>如果某张图四个模型结果不一致，反而是好素材——可以解释为什么最终选EfficientNet-B0</li>
+<li>指向耗时数据，说明工程上有速度考量</li>
+</ul>
+<hr />
+<h2 id="340">步骤3：批量识别（约40秒）</h2>
+<h3 id="_8">操作</h3>
+<ol>
+<li>点击「批量识别」标签页</li>
+<li>批量上传5-10张图片</li>
+<li>等待结果返回，查看统计摘要</li>
+</ol>
+<h3 id="_9">口语稿</h3>
+<blockquote>
+<p>"第三个功能是批量识别。我一次性上传多张图片——"</p>
+<p>（等待结果出来）</p>
+<p>"系统对每张图片都给出了分类结果和置信度，最下面还有一个统计摘要，显示各类别的数量分布。这个功能可以展示系统在实际场景中的批量处理能力。"</p>
+</blockquote>
+<h3 id="_10">注意</h3>
+<ul>
+<li>提前选好图片，确保大部分识别正确</li>
+<li>统计摘要部分值得多停留几秒，体现系统的实用性</li>
+</ul>
+<hr />
+<h2 id="4opencv50">步骤4：OpenCV管线可视化（约50秒）</h2>
+<h3 id="_11">操作</h3>
+<ol>
+<li>点击「OpenCV管线可视化」标签页</li>
+<li>上传一张图片</li>
+<li>查看预处理各步骤的效果对比</li>
+</ol>
+<h3 id="_12">口语稿</h3>
+<blockquote>
+<p>"最后一个功能是OpenCV预处理管线的可视化，这也是我课题的一个亮点。"</p>
+<p>（上传图片，等待结果）</p>
+<p>"大家可以看到，系统逐步展示了图像从原图到最终输入模型的全过程："</p>
+<ul>
+<li>"第一步是<strong>原图</strong>"</li>
+<li>"第二步经过<strong>高斯去噪</strong>，可以看到噪点被平滑了"</li>
+<li>"第三步是<strong>CLAHE自适应直方图均衡化</strong>，图像的对比度明显增强了，特别是在光照不均匀的区域"</li>
+<li>"最后<strong>resize</strong>到模型需要的224×224尺寸"</li>
+</ul>
+<p>"这个预处理不只是为了展示，在实际训练中它带来了两个实实在在的收益：训练速度提升了约3倍，同时还有小幅的精度增益。"</p>
+</blockquote>
+<h3 id="_13">注意</h3>
+<ul>
+<li>这是课题核心亮点（OpenCV），值得多花时间讲</li>
+<li>每一步的图片变化要引导老师看到差异</li>
+<li>选择一张光照不均匀或有噪点的图片，效果更明显</li>
+</ul>
+<hr />
+<h2 id="ppt">演示结束，切回PPT</h2>
+<h3 id="_14">口语稿</h3>
+<blockquote>
+<p>"以上就是系统的实际演示。四个功能覆盖了单图识别、模型对比、批量处理和预处理可视化，形成了完整的功能闭环。"</p>
+<p>"现在我回到PPT，继续汇报结论部分。"</p>
+</blockquote>
+<p>（切换回PPT，继续第11页）</p>
+<hr />
+<h2 id="_15">演示突发情况应对</h2>
+<table>
+<thead>
+<tr>
+<th>情况</th>
+<th>应对</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>系统启动失败</td>
+<td>提前准备好截图或录屏作为备选</td>
+</tr>
+<tr>
+<td>某张图识别错误</td>
+<td>"这张图识别有偏差，这也反映了误差分析中提到的难点，比如XX类别容易混淆"</td>
+</tr>
+<tr>
+<td>页面加载慢</td>
+<td>"系统正在加载模型权重，首次推理会稍慢一些，后续会缓存"</td>
+</tr>
+<tr>
+<td>四个模型结果不一致</td>
+<td>正好用来解释为什么需要多模型对比、为什么最终选EfficientNet-B0</td>
+</tr>
+</tbody>
+</table>
+
+<div class="nav">
+  <a href="01_PPT讲述稿.html">讲述稿</a>
+  <a href="02_系统演示操作稿.html">演示稿</a>
+  <a href="03_模拟问答与回答要点.html">模拟问答</a>
+  <a href="04_项目流程图与训练流程图.html">流程图</a>
+</div>
+
+</body>
+</html>

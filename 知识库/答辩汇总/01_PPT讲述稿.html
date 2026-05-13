@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+<title>01_PPT讲述稿</title>
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Helvetica Neue", sans-serif;
+    max-width: 750px;
+    margin: 0 auto;
+    padding: 20px 16px 60px;
+    background: #f5f5f5;
+    color: #333;
+    line-height: 1.8;
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+  }
+  h1 {
+    font-size: 22px;
+    text-align: center;
+    padding: 16px 0;
+    margin-bottom: 16px;
+    border-bottom: 2px solid #333;
+    color: #111;
+  }
+  h2 {
+    font-size: 19px;
+    margin: 28px 0 12px;
+    padding: 8px 12px;
+    background: #e8e8e8;
+    border-left: 4px solid #444;
+    border-radius: 4px;
+  }
+  h3 {
+    font-size: 17px;
+    margin: 20px 0 10px;
+    color: #555;
+  }
+  p { margin: 10px 0; }
+  strong { color: #c0392b; }
+  code {
+    background: #e0e0e0;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 14px;
+    font-family: "SF Mono", Menlo, monospace;
+  }
+  pre {
+    background: #2d2d2d;
+    color: #ccc;
+    padding: 14px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 12px 0;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  pre code { background: none; color: inherit; padding: 0; }
+  blockquote {
+    border-left: 4px solid #bbb;
+    padding: 8px 14px;
+    margin: 12px 0;
+    background: #eee;
+    border-radius: 4px;
+    color: #555;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 14px;
+  }
+  th, td {
+    border: 1px solid #ccc;
+    padding: 8px 10px;
+    text-align: left;
+  }
+  th { background: #ddd; }
+  tr:nth-child(even) { background: #f9f9f9; }
+  ul, ol { padding-left: 24px; margin: 8px 0; }
+  li { margin: 4px 0; }
+  hr { border: none; border-top: 1px solid #ccc; margin: 24px 0; }
+  .nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #333;
+    display: flex;
+    justify-content: space-around;
+    padding: 8px 0 env(safe-area-inset-bottom, 8px);
+    z-index: 100;
+  }
+  .nav a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 13px;
+    padding: 6px 10px;
+    border-radius: 4px;
+  }
+  .nav a:active { background: #555; }
+</style>
+
+</head>
+<body>
+<h1 id="ppt126">PPT讲述稿（12页，约6分钟）</h1>
+<blockquote>
+<p>使用说明：加粗部分是重点强调的词句，括号内是动作提示。</p>
+</blockquote>
+<hr />
+<h2 id="1-10">第1页 - 封面（10秒）</h2>
+<p>各位老师好，我是通信工程学院人工智能专业的郭靖，学号202210176064。</p>
+<p>我的毕业设计题目是《基于OpenCV的垃圾智能分类系统的设计与实现》，指导老师是邓乃经老师。</p>
+<p>下面我开始汇报。</p>
+<hr />
+<h2 id="2-10">第2页 - 汇报提纲（10秒）</h2>
+<p>我将从以下五个部分进行汇报：</p>
+<ol>
+<li>课题背景与任务目标</li>
+<li>资料来源与技术路线</li>
+<li>实验结果与误差分析</li>
+<li>系统实现与作品展示</li>
+<li>结论、不足与自我评价</li>
+</ol>
+<hr />
+<h2 id="3-40">第3页 - 课题背景与任务目标（40秒）</h2>
+<p>首先是课题背景。</p>
+<p>目前垃圾分类已经在全国范围内常态化推进，但在实际生活中，很多人对垃圾的类别判断并不准确。<strong>人工判断容易受个人经验、光照条件和背景环境的影响</strong>，一旦误投，就会增加后端分拣的成本。</p>
+<p>所以我的课题目标是：<strong>实现一个能够自动识别四类生活垃圾的系统</strong>。</p>
+<p>具体完成了三个方面的工作：</p>
+<p>第一，<strong>数据方面</strong>——把原始的245个细分类别归并为4大类（可回收物、厨余垃圾、有害垃圾、其他垃圾），并按照8:1:1的比例划分了训练集、验证集和测试集。</p>
+<p>第二，<strong>模型方面</strong>——训练并对比了四种轻量级深度学习模型。</p>
+<p>第三，<strong>系统方面</strong>——开发了一个基于FastAPI的Web演示界面，支持多标签页交互。</p>
+<hr />
+<h2 id="4-30">第4页 - 资料来源与数据规模（30秒）</h2>
+<p>在数据方面，我使用的数据集包含<strong>245个细分类别、总共80012张垃圾图像</strong>。</p>
+<p>（指向四分类数据规模图表）归并后的四类数据分布如图所示。</p>
+<p>项目的辅助材料包括：训练日志、训练曲线、混淆矩阵、预测样例和界面截图，以及毕业论文定稿、任务书、开题报告等文档。</p>
+<hr />
+<h2 id="5-50">第5页 - 技术方法（50秒）<strong>重点页</strong></h2>
+<p>接下来介绍技术路线和主要方法。</p>
+<p>整个技术路线是：<strong>数据准备 → OpenCV预处理 → 模型训练 → 实验评估 → Web系统展示</strong>，五个阶段形成完整闭环。</p>
+<p><strong>OpenCV预处理</strong>这块，我做了三个核心操作：</p>
+<ul>
+<li><strong>高斯去噪</strong>——消除图像中的噪点</li>
+<li><strong>CLAHE自适应直方图均衡化</strong>——增强图像对比度，特别是在光照不均的情况下</li>
+<li><strong>颜色空间转换</strong>——在不同颜色空间中提取特征</li>
+</ul>
+<p>这些预处理不只是跑一遍就完了，后面在系统演示中可以看到，<strong>每一步都有可视化效果展示</strong>。</p>
+<p><strong>模型训练</strong>方面，我采用了<strong>迁移学习</strong>的策略，使用了<strong>两阶段训练</strong>：第一阶段冻结骨干网络只训练分类头，第二阶段解冻全网络用更低学习率微调。</p>
+<p>候选了四个轻量级模型：<strong>MobileNetV3-Small、ResNet18、EfficientNet-B0、ShuffleNetV2</strong>，通过统一的评估流程进行对比，最终选出了综合表现最优的模型。</p>
+<p>整个方法的重点是：<strong>用OpenCV增强输入质量，用多模型对比验证最终方案的综合表现</strong>。</p>
+<hr />
+<h2 id="6-30">第6页 - 实验设置（30秒）</h2>
+<p>在实验设置上，数据集有两个主要难点：</p>
+<p>第一，<strong>类别不均衡</strong>，可回收物的样本数量占比最高，其他类别相对较少。</p>
+<p>第二，<strong>背景复杂</strong>，图像中存在反光、阴影和遮挡等干扰因素。</p>
+<p>尤其是<strong>其他垃圾和有害垃圾更容易被误判</strong>，因为它们的样本较少，而且外观上容易和其他类别混淆。</p>
+<p>所有训练参数、数据划分和日志都有完整记录，确保实验过程可追溯。</p>
+<hr />
+<h2 id="7-40">第7页 - 四模型实验结果（40秒）</h2>
+<p>这是四个模型的对比结果。</p>
+<p><strong>EfficientNet-B0综合指标最高</strong>，测试准确率达到<strong>94.47%</strong>，因此选为最终模型。</p>
+<p>ResNet18的推理速度最快。轻量模型更利于部署，但在少数类上的识别能力稍弱。</p>
+<p>最终选型的理由是：<strong>EfficientNet-B0在精度、宏平均指标和类别均衡表现上都是最优的</strong>。</p>
+<hr />
+<h2 id="8-40">第8页 - 训练过程与预处理收益（40秒）<strong>重点页</strong></h2>
+<p>训练过程中有几个关键节点：</p>
+<ul>
+<li><strong>Epoch 15</strong>：冻结阶段结束，验证准确率<strong>86.80%</strong></li>
+<li><strong>Epoch 16</strong>：解冻之后直接跃升到<strong>91.33%</strong></li>
+<li><strong>Epoch 41</strong>：达到最佳验证准确率<strong>94.94%</strong></li>
+</ul>
+<p>解冻后准确率的跃升说明，预训练特征和分类头已经对齐，整体微调能进一步挖掘模型潜力。</p>
+<p><strong>OpenCV离线预处理的收益</strong>非常显著：</p>
+<ul>
+<li>每个epoch的训练时间从大约<strong>400秒降到了130秒</strong></li>
+<li><strong>训练速度提升了约3倍</strong></li>
+<li>同时还带来了小幅但稳定的精度增益</li>
+</ul>
+<p>这是因为预处理在离线阶段就完成了图像增强，减少了在线训练时的计算负担。</p>
+<hr />
+<h2 id="9-30">第9页 - 误差分析（30秒）</h2>
+<p>在误差分析方面，主要发现：</p>
+<p><strong>其他垃圾是最难识别的类别</strong>，经常和可回收物发生材质交叉。比如指甲油、PE塑料袋容易被误判为可回收物。</p>
+<p><strong>有害垃圾</strong>因为样本较少，外观又和容器类样本相似，也容易出错。</p>
+<p>可回收物和厨余垃圾的整体识别效果比较稳定。</p>
+<p>这些误差的根本原因是<strong>类别不均衡和样本代表性不足</strong>，后续可以通过扩充样本和引入重采样来改进。</p>
+<hr />
+<h2 id="10-30">第10页 - 系统展示（30秒）</h2>
+<p>系统实现了四个核心功能：</p>
+<ul>
+<li><strong>单图识别</strong>——上传一张图片，给出分类结果、置信度和投放建议</li>
+<li><strong>四模型对比</strong>——同一张图片用四个模型分别推理，对比结果和耗时</li>
+<li><strong>批量识别统计</strong>——多张图片批量识别，输出统计摘要</li>
+<li><strong>OpenCV管线可视化</strong>——逐步展示预处理过程</li>
+</ul>
+<p>后端使用FastAPI，前端是原生HTML/CSS/JS。</p>
+<p>现在我来实际演示一下。</p>
+<hr />
+<h2 id="_1">（切换到系统演示，参考演示操作稿）</h2>
+<hr />
+<h2 id="11-40">第11页 - 结论与不足（40秒）</h2>
+<p>最后总结一下。</p>
+<p><strong>主要结论</strong>有三个：</p>
+<ol>
+<li>EfficientNet-B0在四模型对比中表现最佳，测试准确率94.47%</li>
+<li>OpenCV预处理显著提升了训练效率，速度提升约3倍</li>
+<li>系统形成了从数据处理、模型训练、评估推理到前端展示的<strong>完整闭环</strong></li>
+</ol>
+<p><strong>存在的不足</strong>：</p>
+<ul>
+<li>少数类样本偏少，误差集中在其他垃圾和有害垃圾</li>
+<li>实时视频和嵌入式部署仍有提升空间</li>
+</ul>
+<p><strong>后续改进方向</strong>：</p>
+<ul>
+<li>扩充其他垃圾和有害垃圾的代表性样本</li>
+<li>引入重采样、类别重加权或更细致的数据清洗</li>
+<li>继续探索实时视频识别与轻量化部署</li>
+</ul>
+<p>项目已完成了数据处理、模型训练、系统开发和论文整理的全部工作，实现与论文内容保持一致，达到了课题预期目标。</p>
+<hr />
+<h2 id="12-10">第12页 - 结束（10秒）</h2>
+<p>以上就是我的全部汇报，恳请各位老师批评指正。谢谢！</p>
+
+<div class="nav">
+  <a href="01_PPT讲述稿.html">讲述稿</a>
+  <a href="02_系统演示操作稿.html">演示稿</a>
+  <a href="03_模拟问答与回答要点.html">模拟问答</a>
+  <a href="04_项目流程图与训练流程图.html">流程图</a>
+</div>
+
+</body>
+</html>
